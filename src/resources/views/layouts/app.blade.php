@@ -1,45 +1,30 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>アプリケーション名</title>
-    <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/common.css') }}">
-    @yield('css')
+    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- ビューポートの設定 -->
+    <meta name="csrf-token" content="{{ csrf_token() }}"> <!-- CSRFトークンの設定 -->
+
+    <title>COACHTECH</title>
+
+    <link rel="stylesheet" href="/css/sanitize.css"> <!-- リセットCSS -->
+    <link rel="stylesheet" href="/css/layout.css"> <!-- layout CSS -->
+
 </head>
 
 <body>
-    <header class="header">
-        <div class="header__inner">
-            <div class="header-utilities">
-                <a class="header__logo" href="/">
-                    アプリケーション名
-                </a>
-                <nav>
-                    <ul class="header-nav">
-                        @if (Auth::check())
-                        <li class="header-nav__item">
-                            <a class="header-nav__link" href="/mypage">マイページ</a>
-                        </li>
-                        <li class="header-nav__item">
-                            <form class="form" action="/logout" method="post">
-                                @csrf
-                                <button class="header-nav__button">ログアウト</button>
-                            </form>
-                        </li>
-                        @endif
-                    </ul>
-                </nav>
-            </div>
+<nav class="navbar">
+        <div class="navbar-container">
+            <a href="{{ route('register') }}" class="navbar-brand">
+                <img src="/images/logo.svg" alt="coachtech" class="navbar-logo">
+            </a>
         </div>
-    </header>
+    </nav>
 
-    <main>
-        @yield('content')
-    </main>
+  <main>
+    @yield('content') <!-- コンテンツの挿入 -->
+  </main>
 </body>
 
 </html>

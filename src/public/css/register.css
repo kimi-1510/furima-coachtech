@@ -1,60 +1,57 @@
-.register-form__content {
-    margin: 0 auto;
-    padding: 30px 15px;
-    max-width: 1230px;
+/* コンテナ */
+.form-container {
+    max-width: 500px; /* 最大幅 */
+    margin: 40px auto; /* 上下の余白と中央寄せ */
+    padding: 0 20px; /* 左右の余白 */
+    box-sizing: border-box; /* パディングを含めた幅の計算 */
 }
 
-.register-form__heading {
-    margin-bottom: 20px;
-    text-align: center;
+/* ラベル・入力欄 */
+label {
+    display: block; /* ブロック要素として表示 */
+    margin-top: 16px; /* 上の余白 */
+    font-weight: bold; /* 太字 */
+}
+input {
+    width: 100%; /* 幅を100%に */
+    padding: 8px; /* 内側の余白 */
+    margin-top: 4px; /* 上の余白 */
+    box-sizing: border-box; /* パディングを含めた幅の計算 */
+    border: 1px solid #ccc; /* 枠線 */
+    border-radius: 4px; /* 角を丸く */
 }
 
-.form {
-    margin: 0 auto;
-    width: 25%;
-    text-align: center;
+/* エラーメッセージ */
+.error {
+    color: #d00; /* 文字色 */
+    font-size: 0.9em; /* フォントサイズ */
+    margin-top: 4px; /* 上の余白 */
 }
 
-.form__group {
-    margin-bottom: 5px;
+/* ボタン */
+button {
+    width: 100%; /* 幅を100%に */
+    padding: 10px; /* 内側の余白 */
+    margin-top: 24px; /* 上の余白 */
+    background-color: #ff5454; /* 背景色 */
+    color: #fff; /* 文字色 */
+    border-radius: 4px; /* 角を丸く */
+    border: none; /* 枠線なし */
+    cursor: pointer; /* カーソルをポインターに */
+}
+button:hover {
+    background-color: #cf3f3f;  /* ホバー時の背景色 */
 }
 
-.form__group-title {
-    text-align: left;
+/* ログイン画面へのテキストリンク */
+.text-center {
+    text-align: center; /* 中央寄せ */
+    margin-top: 12px; /* 上の余白 */
 }
 
-.form__error {
-    height: 20px;
-    color: #ff0000;
-    text-align: left;
+/* レスポンシブ調整 */
+@media (min-width: 1400px) {
+    .form-container {
+        max-width: 600px;
 }
-
-.form__input--text input {
-    padding: 10px;
-    width: 100%;
-    height: 40px;
-    border: 1px solid #ddd;
-    border-radius: 3px;
-
-    appearance: none;
-}
-
-.form__button {
-    margin-top: 20px;
-}
-
-.form__button-submit {
-    padding: 10px;
-    width: 30%;
-    height: 50px;
-    border: none;
-    border-radius: 3px;
-    background: #000;
-    color: #fff;
-    cursor: pointer;
-}
-
-.login__link {
-    margin-top: 20px;
-    text-align: center;
 }

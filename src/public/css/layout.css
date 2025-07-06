@@ -1,0 +1,27 @@
+/* ナビゲーション */
+.navbar {
+    background-color: #000
+}
+
+.navbar-container {
+    max-width: 1200px;
+    padding: 0 8px;
+}
+
+.navbar-brand {
+    display: inline-block;
+    text-decoration: none;
+}
+
+.navbar-logo {
+    height: 40px;
+    width: 200px;
+    display: block;
+}
+
+/* レスポンシブ調整 */
+@media (min-width: 1400px) {
+    .form-container {
+        max-width: 600px;
+}
+}

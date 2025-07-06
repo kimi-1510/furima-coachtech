@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +14,8 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::middleware('auth')->group(function () {
-    Route::get('/', [AuthController::class, 'index']);
-});
+// 登録画面の表示
+Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
+
+// 入力データを受け取ってユーザー登録
+Route::post('/register', [RegisteredUserController::class, 'store']);

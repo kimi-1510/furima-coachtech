@@ -1,77 +1,38 @@
-@extends('layouts.app')
+@extends('layouts.app') <!-- レイアウトの継承 -->
 
-@section('css')
-<link rel="stylesheet" href="{{ asset('css/register.css') }}">
-@endsection
+@section('content') <!-- コンテンツの挿入 -->
+<link rel="stylesheet" href="/css/register.css"> <!-- 登録フォームのCSS読み込み -->
 
-@section('content')
-<div class="register__content">
-    <div class="register-form__heading">
-        <h2>会員登録</h2>
-    </div>
-    <form class="form" action="/register" method="post">
-        @csrf
-        <div class="form__group">
-            <div class="form__group-title">
-                <span class="form__label--item">お名前</span>
-            </div>
-            <div class="form__group-content">
-                <div class="form__input--text">
-                    <input type="text" name="name" value="{{ old('name') }}" />
-                </div>
-                <div class="form__error">
-                    @error('name')
-                    {{ $message }}
-                    @enderror
-                </div>
-            </div>
-        </div>
-        <div class="form__group">
-            <div class="form__group-title">
-                <span class="form__label--item">メールアドレス</span>
-            </div>
-            <div class="form__group-content">
-                <div class="form__input--text">
-                    <input type="email" name="email" value="{{ old('email') }}" />
-                </div>
-                <div class="form__error">
-                    @error('email')
-                    {{ $message }}
-                    @enderror
-                </div>
-            </div>
-        </div>
-        <div class="form__group">
-            <div class="form__group-title">
-                <span class="form__label--item">パスワード</span>
-            </div>
-            <div class="form__group-content">
-                <div class="form__input--text">
-                    <input type="password" name="password" />
-                </div>
-                <div class="form__error">
-                    @error('password')
-                    {{ $message }}
-                    @enderror
-                </div>
-            </div>
-        </div>
-        <div class="form__group">
-            <div class="form__group-title">
-                <span class="form__label--item">確認用パスワード</span>
-            </div>
-            <div class="form__group-content">
-                <div class="form__input--text">
-                    <input type="password" name="password_confirmation" />
-                </div>
-            </div>
-        </div>
-        <div class="form__button">
-            <button class="form__button-submit" type="submit">登録</button>
-        </div>
+<div class="form-container"> <!-- フォームのコンテナ -->
+    <h2>会員登録</h2>
+
+    <form method="POST" action="{{ route('register') }}"> <!-- フォームの送信先 -->
+        @csrf <!-- CSRFトークンの挿入 -->
+
+        {{-- ユーザー名 --}}
+        <label for="name">ユーザー名</label> <!-- ラベル -->
+        <input id="name" type="text" name="name" value="{{ old('name') }}"> <!-- ユーザー名の入力フィールド -->
+        @error('name') <p class="error">{{ $message }}</p> @enderror <!-- エラーメッセージ -->
+
+        {{-- メールアドレス --}}
+        <label for="email">メールアドレス</label> <!-- ラベル -->
+        <input id="email" type="email" name="email" value="{{ old('email') }}"> <!-- メールアドレスの入力フィールド -->
+        @error('email') <p class="error">{{ $message }}</p> @enderror <!-- エラーメッセージ -->
+
+        {{-- パスワード --}}
+        <label for="password">パスワード</label> <!-- ラベル -->
+        <input id="password" type="password" name="password"> <!-- パスワードの入力フィールド -->
+        @error('password') <p class="error">{{ $message }}</p> @enderror <!-- エラーメッセージ -->
+
+        {{-- 確認用パスワード --}}
+        <label for="password_confirmation">確認用パスワード</label> <!-- ラベル -->
+        <input id="password_confirmation" type="password" name="password_confirmation"> <!-- 確認用パスワードの入力フィールド -->
+        @error('password_confirmation') <p class="error">{{ $message }}</p> @enderror <!-- エラーメッセージ -->
+
+        <button type="submit">登録する</button> <!-- 登録ボタン -->
+
+        <p class="text-center">
+            <a href="{{ route('login') }}">ログインはこちら</a> <!-- ログイン画面に遷移 -->
+        </p>
     </form>
-    <div class="login__link">
-        <a class="login__button-submit" href="/login">ログインの方はこちら</a>
-    </div>
-</div>
 @endsection
