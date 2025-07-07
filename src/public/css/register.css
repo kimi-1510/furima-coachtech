@@ -6,6 +6,12 @@
     box-sizing: border-box; /* パディングを含めた幅の計算 */
 }
 
+/* 見出し */
+h2 {
+    text-align: center; /* 中央寄せ */
+}
+
+
 /* ラベル・入力欄 */
 label {
     display: block; /* ブロック要素として表示 */

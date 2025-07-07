@@ -6,7 +6,7 @@
 <div class="form-container"> <!-- フォームのコンテナ -->
     <h2>会員登録</h2>
 
-    <form method="POST" action="{{ route('register') }}"> <!-- フォームの送信先 -->
+    <form method="POST" action="{{ route('register') }}" novalidate> <!-- フォームの送信先 -->
         @csrf <!-- CSRFトークンの挿入 -->
 
         {{-- ユーザー名 --}}
