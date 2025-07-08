@@ -21,14 +21,14 @@ class RegisteredUserController extends Controller
     {
         $data = $request->validated();
 
-        // ユーザーを作成
+        // 新しいユーザーをデータベースに保存
         $user = User::Create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
 
-        //ログイン
+        //保存したら自動でログインさせる
         Auth::login($user);
 
         // 初回登録直後はプロフィール設定画面へ遷移

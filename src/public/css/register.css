@@ -11,7 +11,6 @@ h2 {
     text-align: center; /* 中央寄せ */
 }
 
-
 /* ラベル・入力欄 */
 label {
     display: block; /* ブロック要素として表示 */
@@ -34,7 +33,7 @@ input {
     margin-top: 4px; /* 上の余白 */
 }
 
-/* ボタン */
+/* 登録ボタン */
 button {
     width: 100%; /* 幅を100%に */
     padding: 10px; /* 内側の余白 */
