@@ -1,52 +1,38 @@
-@extends('layouts.app')
+@extends('layouts.app') <!-- レイアウトの継承 -->
 
-@section('css')
-<link rel="stylesheet" href="{{ asset('css/login.css') }}">
-@endsection
+@section('content') <!-- コンテンツの挿入 -->
+<link rel="stylesheet" href="/css/common.css"> <!-- CSS読み込み -->
 
-@section('content')
-<div class="login__content">
-    <div class="login-form__heading">
-        <h2>ログイン</h2>
-    </div>
-    <form class="form" action="/login" method="post">
-        @csrf
-        <div class="form__group">
-            <div class="form__group-title">
-                <span class="form__label--item">メールアドレス</span>
-            </div>
-            <div class="form__group-content">
-                <div class="form__input--text">
-                    <input type="email" name="email" value="{{ old('email') }}" />
-                </div>
-                <div class="form__error">
-                    @error('email')
-                    {{ $message }}
-                    @enderror
-                </div>
-            </div>
-        </div>
-        <div class="form__group">
-            <div class="form__group-title">
-                <span class="form__label--item">パスワード</span>
-            </div>
-            <div class="form__group-content">
-                <div class="form__input--text">
-                    <input type="password" name="password" />
-                </div>
-                <div class="form__error">
-                    @error('password')
-                    {{ $message }}
-                    @enderror
-                </div>
-            </div>
-        </div>
-        <div class="form__button">
-            <button class="form__button-submit" type="submit">ログイン</button>
-        </div>
+<div class="form-container"> <!-- フォームのコンテナ -->
+    <h2>ログイン</h2>
+
+    {{-- 未承認ユーザーへの共通エラー --}}
+    @if($errors->has('email'))
+        <p class="error">{{ $errors->first('email') }}</p>
+    @endif
+
+    <form method="POST" action="{{ route('login') }}" novalidate> <!-- フォームの送信先 -->
+        @csrf <!-- CSRFトークンの挿入 -->
+
+        {{-- メールアドレス --}}
+        <label for="email">メールアドレス</label> <!-- ラベル -->
+        <input id="email" type="email" name="email" value="{{ old('email') }}" autofocus> <!-- メールアドレスの入力フィールド -->
+        @error('email')
+            <p clas="error">{{ $message }}</p>
+        @enderror
+
+        {{-- パスワード --}}
+        <label for="password">パスワード</label>
+        <input id="password" type="password" name="password"> <!-- パスワードの入力フィールド -->
+        @error('password')
+            <p class="error">{{ $message }}</p>
+        @enderror
+
+        <button type="submit">ログイン</button> <!--ログインボタン -->
+
+        <p class="text-center">
+            <a href="{{ route('register') }}">会員登録はこちら</a> <!-- 会員登録画面に遷移 -->
+        </p>
     </form>
-    <div class="register__link">
-        <a class="register__button-submit" href="/register">会員登録の方はこちら</a>
-    </div>
 </div>
 @endsection

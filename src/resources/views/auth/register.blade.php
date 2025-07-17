@@ -11,7 +11,7 @@
 
         {{-- ユーザー名 --}}
         <label for="name">ユーザー名</label> <!-- ラベル -->
-        <input id="name" type="text" name="name" value="{{ old('name') }}"> <!-- ユーザー名の入力フィールド -->
+        <input id="name" type="text" name="name" value="{{ old('name') }}" autofocus> <!-- ユーザー名の入力フィールド -->
         @error('name') <p class="error">{{ $message }}</p> @enderror <!-- エラーメッセージ -->
 
         {{-- メールアドレス --}}
@@ -35,4 +35,5 @@
             <a href="{{ route('login') }}">ログインはこちら</a> <!-- ログイン画面に遷移 -->
         </p>
     </form>
+</div>
 @endsection

@@ -10,10 +10,13 @@ class FortifyServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        // 会員登録画面として使うビューを教える
+        // 会員登録画面のビューを登録
         Fortify::registerView(fn() => view('auth.register'));
 
-        // 新規ユーザーを作るロジックを教える
+        // 新規ユーザーを作るロジックを指定
         Fortify::createUsersUsing(CreateNewUser::class);
+
+        // ログイン画面のビューを登録
+        Fortify::loginView(fn() => view('auth.login'));
     }
 }

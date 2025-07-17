@@ -13,7 +13,7 @@ class RegisterRequest extends FormRequest
      */
     public function authorize():bool
     {
-        return true;
+        return true; // 認証は不要なのでtrueを返す
     }
 
     /**
@@ -24,6 +24,7 @@ class RegisterRequest extends FormRequest
     public function rules():array
     {
         return [
+            // バリデーションルールを定義
             'name' => 'required|max:20', // 必須、20文字以内
             'email' => 'required|email', // 必須、メールアドレス形式
             'password' => 'required|min:8', // 必須、8文字以上
@@ -34,6 +35,7 @@ class RegisterRequest extends FormRequest
     public function messages(): array
     {
         return [
+            // バリデーションエラーメッセージを定義
             'name.required' => 'お名前を入力してください',
             'name.max' => 'お名前は20文字以内で入力してください',
             'email.required' => 'メールアドレスを入力してください',

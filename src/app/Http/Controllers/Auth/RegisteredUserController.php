@@ -31,7 +31,7 @@ class RegisteredUserController extends Controller
         //保存したら自動でログインさせる
         Auth::login($user);
 
-        // 初回登録直後はプロフィール設定画面へ遷移
+        // 初回登録後はプロフィール設定画面へ遷移
         return redirect('/mypage/profile');
     }
 }

@@ -1,0 +1,101 @@
+/* コンテナ */
+.form-container {
+    max-width: 500px; /* 最大幅 */
+    margin: 40px auto; /* 上下の余白と中央寄せ */
+    padding: 0 20px; /* 左右の余白 */
+    box-sizing: border-box; /* パディングを含めた幅の計算 */
+}
+
+/* 見出し */
+h2 {
+    text-align: center; /* 中央寄せ */
+}
+
+/* ラベル・入力欄 */
+label {
+    display: block; /* ブロック要素として表示 */
+    margin-top: 16px; /* 上の余白 */
+    font-weight: bold; /* 太字 */
+}
+input {
+    width: 100%; /* 幅を100%に */
+    padding: 8px; /* 内側の余白 */
+    margin-top: 4px; /* 上の余白 */
+    box-sizing: border-box; /* パディングを含めた幅の計算 */
+    border: 1px solid #ccc; /* 枠線 */
+    border-radius: 4px; /* 角を丸く */
+}
+
+/* エラーメッセージ */
+.error {
+    color: #d00; /* 文字色 */
+    font-size: 0.9em; /* フォントサイズ */
+    margin-top: 4px; /* 上の余白 */
+}
+
+/* 登録ボタン */
+button {
+    width: 100%; /* 幅を100%に */
+    padding: 10px; /* 内側の余白 */
+    margin-top: 24px; /* 上の余白 */
+    background-color: #ff5454; /* 背景色 */
+    color: #fff; /* 文字色 */
+    border-radius: 4px; /* 角を丸く */
+    border: none; /* 枠線なし */
+    cursor: pointer; /* カーソルをポインターに */
+}
+button:hover {
+    background-color: #cf3f3f;  /* ホバー時の背景色 */
+}
+
+/* ログイン画面へのテキストリンク */
+.text-center {
+    text-align: center; /* 中央寄せ */
+    margin-top: 12px; /* 上の余白 */
+}
+
+/* プロフィール画像のセクション */
+.profile-image-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* プロフィール画像 */
+.profile-image,
+.profile-placeholder {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ccc;
+    flex-shrink: 0;
+}
+
+.profile-placeholder {
+    background-color: #d9d9d9;
+}
+
+
+/* 画像選択ボタン */
+.image-button {
+    margin-left: 16px;
+    padding: 8px 12px;
+    background-color: #fff;
+    color: #ff5454;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 1px solid #ff5454;
+    font-size: 0.9em;
+}
+
+.image-input {
+    display: none;
+}
+
+/* レスポンシブ調整 */
+@media (min-width: 1400px) {
+    .form-container {
+        max-width: 600px;
+}
+}

@@ -19,6 +19,29 @@
     display: block;
 }
 
+/* ヘッダー内のログアウトボタンを右端に配置 */
+.navbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* ログアウトフォームを右端に */
+.logout-form {
+    margin: 0;
+}
+
+/* ログアウトボタンのデザイン例 */
+.logout-btn {
+    background: black;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.2s;
+}
+
 /* レスポンシブ調整 */
 @media (min-width: 1400px) {
     .form-container {

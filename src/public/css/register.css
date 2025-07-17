@@ -54,6 +54,38 @@ button:hover {
     margin-top: 12px; /* 上の余白 */
 }
 
+/* プロフィール画像のセクション */
+.profile-image-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* プロフィール画像 */
+.profile-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ccc;
+}
+
+/* 画像選択ボタン */
+.image-button {
+    margin-left: 16px;
+    padding: 8px 12px;
+    background-color: #fff;
+    color: #ff5454;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 1px solid #ff5454;
+    font-size: 0.9em;
+}
+
+.image-input {
+    display: none;
+}
+
 /* レスポンシブ調整 */
 @media (min-width: 1400px) {
     .form-container {
