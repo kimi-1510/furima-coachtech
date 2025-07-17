@@ -6,11 +6,6 @@
 <div class="form-container"> <!-- フォームのコンテナ -->
     <h2>ログイン</h2>
 
-    {{-- 未承認ユーザーへの共通エラー --}}
-    @if($errors->has('email'))
-        <p class="error">{{ $errors->first('email') }}</p>
-    @endif
-
     <form method="POST" action="{{ route('login') }}" novalidate> <!-- フォームの送信先 -->
         @csrf <!-- CSRFトークンの挿入 -->
 
@@ -18,7 +13,7 @@
         <label for="email">メールアドレス</label> <!-- ラベル -->
         <input id="email" type="email" name="email" value="{{ old('email') }}" autofocus> <!-- メールアドレスの入力フィールド -->
         @error('email')
-            <p clas="error">{{ $message }}</p>
+            <p class="error">{{ $message }}</p>
         @enderror
 
         {{-- パスワード --}}

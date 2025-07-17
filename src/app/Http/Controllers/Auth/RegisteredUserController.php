@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class RegisteredUserController extends Controller
 {
-    // 登録フォームを表示
+    // 会員登録画面を表示するメソッド
     public function create()
     {
         return view('auth.register');
