@@ -45,4 +45,22 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // 出品した商品
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    // いいねした商品
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    // コメント
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

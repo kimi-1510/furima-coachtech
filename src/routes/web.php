@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\LikeController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,3 +43,11 @@ Route::get('/login', [LoginController::class, 'loginForm'])->name('login');
 
 // ログイン処理
 Route::post('/login', [LoginController::class, 'login']);
+
+Route::get('/', [ProductController::class, 'index'])->name('products.index');
+Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
+
+Route::post('/products/{product}/like', [LikeController::class, 'store'])->middleware('auth')->name('products.like');
+Route::delete('/products/{product}/like', [LikeController::class, 'destroy'])->middleware('auth')->name('products.unlike');
+
+Route::post('/products/{product}/comments', [CommentController::class, 'store'])->middleware('auth')->name('products.comments.store');
