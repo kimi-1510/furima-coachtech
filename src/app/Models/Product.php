@@ -38,4 +38,16 @@ class Product extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    // 一括代入を許可するカラムを指定
+    protected $fillable = [
+        'name',
+        'price',
+        'brand_id',
+        'description',
+        'status',
+        'image',
+        'user_id',
+        'is_sold',
+    ];
 }

@@ -1,0 +1,77 @@
+    .product-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 32px; /* カード同士のスペースを広げる */
+        margin: 24px 40px 40px 40px; /* 上 右 下 左 */
+    }
+    .product-card {
+        width: calc(25% - 24px); /* gapが32pxなので、-24pxで調整 */
+        text-align: center;
+        padding: 8px 4px 6px 4px; /* 余白を小さく */
+        transition: box-shadow 0.2s;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .product-card:hover {
+        box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+    }
+    .product-card .image-wrapper {
+        width: 100%;
+        aspect-ratio: 1 / 1; /* 横:縦 */
+        overflow: hidden;
+        border-radius: 4px;
+        background: #f8f8f8;
+        margin-bottom: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .product-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+    .product-card .product-name {
+        width: 100%;         /* 画像と同じ幅 */
+        text-align: left;    /* 左揃え */
+        font-weight: bold;
+        font-size: 1.1em;
+        margin-bottom: 4px;
+        min-height: 2.2em;
+        /* padding-left: 0; 余白は不要 */
+        /* margin-left: 0; 余白は不要 */
+        color: #222; /* 明示的に黒系に */
+    }
+    .product-card a {
+        text-decoration: none; /* 下線を消す */
+        color: inherit;        /* 親要素の色を継承（黒など） */
+        display: block;
+        width: 100%;
+    }
+    .tab-links {
+        display: flex;
+        gap: 24px;
+        margin: 24px 0 0 0;
+        font-size: 1.1em;
+        padding-left: 100px;
+        border-bottom: 2px solid #5e5e5e;
+    }
+    .tab-links a {
+        text-decoration: none;
+        color: #5e5e5e;
+        font-weight: bold;
+        padding-bottom: 4px;
+    }
+    .tab-links a.active {
+        color: #ff5454;
+        font-weight: bold;
+    }
+
+    /* レスポンシブ調整 */
+@media (min-width: 1400px) {
+    .form-container {
+        max-width: 600px;
+}
+}

@@ -1,7 +1,7 @@
 @extends('layouts.app') <!-- レイアウトの継承 -->
 
 @section('content') <!-- コンテンツの挿入 -->
-<link rel="stylesheet" href="/css/register.css"> <!-- 登録フォームのCSS読み込み -->
+<link rel="stylesheet" href="/css/register.css"> <!-- CSS読み込み -->
 
 <div class="form-container"> <!-- フォームのコンテナ -->
     <h2>会員登録</h2>
