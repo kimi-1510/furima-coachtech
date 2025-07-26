@@ -11,24 +11,40 @@
   <link rel="stylesheet" href="/css/sanitize.css"> <!-- リセットCSS -->
   <link rel="stylesheet" href="/css/layout.css"> <!-- layout CSS -->
 
+
+
 </head>
 
 <body>
 <nav class="navbar">
   <div class="navbar-container">
+    <!-- 左：ロゴ -->
     <a href="{{ route('register') }}" class="navbar-brand">
       <img src="/images/logo.svg" alt="coachtech" class="navbar-logo">
     </a>
+
+    <!-- 中央：検索フォーム -->
+    @if(!request()->routeIs('login', 'register')) <!-- ログイン・会員登録画面以外で表示 -->
+    <form action="{{ route('search') }}" method="GET" class="search-form">
+      <input type="text" name="keyword" placeholder="なにをお探しですか？" class="search-input" autocomplete="off">
+    </form>
+    @endif
+
+    <!-- 右：ログアウト or ログイン -->
     @auth
     <form method="POST" action="{{ route('logout') }}" class="logout-form">
       @csrf
       <button type="submit" class="logout-btn">ログアウト</button>
     </form>
     @endauth
+
+    @guest
+      <a href="{{ route('login') }}" class="login-link">ログイン</a>
+    @endguest
   </div>
 </nav>
 
-  <main>
+  <main class="main-content">
     @yield('content') <!-- コンテンツの挿入 -->
   </main>
 </body>

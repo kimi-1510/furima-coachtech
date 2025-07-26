@@ -17,7 +17,7 @@ label {
     margin-top: 16px; /* 上の余白 */
     font-weight: bold; /* 太字 */
 }
-input {
+.common-input {
     width: 100%; /* 幅を100%に */
     padding: 8px; /* 内側の余白 */
     margin-top: 4px; /* 上の余白 */
@@ -34,7 +34,7 @@ input {
 }
 
 /* 登録ボタン */
-button {
+.common-btn {
     width: 100%; /* 幅を100%に */
     padding: 10px; /* 内側の余白 */
     margin-top: 24px; /* 上の余白 */

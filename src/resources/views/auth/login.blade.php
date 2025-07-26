@@ -11,19 +11,19 @@
 
         {{-- メールアドレス --}}
         <label for="email">メールアドレス</label> <!-- ラベル -->
-        <input id="email" type="email" name="email" value="{{ old('email') }}" autofocus> <!-- メールアドレスの入力フィールド -->
+        <input id="email" type="email" name="email" value="{{ old('email') }}" autofocus class="common-input"> <!-- メールアドレスの入力フィールド -->
         @error('email')
             <p class="error">{{ $message }}</p>
         @enderror
 
         {{-- パスワード --}}
         <label for="password">パスワード</label>
-        <input id="password" type="password" name="password"> <!-- パスワードの入力フィールド -->
+        <input id="password" type="password" name="password" class="common-input"> <!-- パスワードの入力フィールド -->
         @error('password')
             <p class="error">{{ $message }}</p>
         @enderror
 
-        <button type="submit">ログイン</button> <!--ログインボタン -->
+        <button type="submit" class="common-btn">ログイン</button> <!--ログインボタン -->
 
         <p class="text-center">
             <a href="{{ route('register') }}">会員登録はこちら</a> <!-- 会員登録画面に遷移 -->

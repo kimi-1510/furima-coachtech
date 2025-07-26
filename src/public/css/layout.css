@@ -1,50 +1,82 @@
-/* ナビゲーション */
+/* 固定ヘッダー設定 */
 .navbar {
-    background-color: #000
+    position: fixed;    /* 画面上部に固定 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #000;
+    z-index: 1000;      /* 他要素の上に表示 */
 }
 
+/* ヘッダー内コンテナ */
 .navbar-container {
     max-width: 1200px;
     padding: 0 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;       /* ヘッダー高さを固定 */
+    margin: 0 auto;
 }
 
+/* ロゴ */
 .navbar-brand {
     display: inline-block;
     text-decoration: none;
 }
-
 .navbar-logo {
     height: 40px;
     width: 200px;
-    display: block;
+    object-fit: contain;
 }
 
-/* ヘッダー内のログアウトボタンを右端に配置 */
-.navbar-container {
+/* 検索フォーム */
+.search-form {
+    flex: 1;                /* 左右を押し広げて中央に配置 */
+    max-width: 400px;       /* 最大幅を設定 */
+    margin: 0 20px;         /* ロゴ／リンクとの間隔 */
     display: flex;
     align-items: center;
-    justify-content: space-between;
 }
 
-/* ログアウトフォームを右端に */
+.search-input {
+    flex: 1;
+    height: 36px;
+    padding: 0 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.9em;
+    outline: none;
+}
+
+.search-input::placeholder {
+    color: #999;
+}
+
+
+/* ログアウト／ログインリンク */
 .logout-form {
     margin: 0;
 }
-
-/* ログアウトボタンのデザイン例 */
-.logout-btn {
-    background: black;
-    color: #fff;
-    border: none;
-    padding: 8px 16px;
-    cursor: pointer;
+.logout-btn,
+.login-link {
     font-size: 1rem;
-    transition: background 0.2s;
+    color: #fff;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/* メインコンテンツ余白 */
+.main-content {
+    /* 固定ヘッダーの高さ分だけ余白を上部に確保 */
+    padding-top: 60px;
 }
 
 /* レスポンシブ調整 */
 @media (min-width: 1400px) {
     .form-container {
         max-width: 600px;
-}
+    }
 }

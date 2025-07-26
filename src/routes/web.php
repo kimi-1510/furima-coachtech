@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\CommentController;
 
@@ -35,6 +36,13 @@ Route::get('/', [ProductController::class, 'index'])->name('products.index');
 
 // 商品詳細画面の表示
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
+
+// ==============================
+// 検索機能
+// ==============================
+
+// ヘッダー検索フォームからキーワードを受け取り、商品を検索
+Route::get('/search', [SearchController::class, 'index'])->name('search');
 
 // ==============================
 // ログイン関連
