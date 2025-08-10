@@ -3,23 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use App\Models\Comment;
-use Illuminate\Http\Request;
+use App\Http\Requests\CommentRequest;
 
 class CommentController extends Controller
 {
-    // コメント投稿
-    public function store(Request $request, Product $product)
+    public function __construct()
     {
-        $request->validate([
-            'content' => 'required|max:255',
-        ]);
+        // 未ログインユーザーをブロック
+        $this->middleware('auth');
+    }
 
+    // コメント投稿
+    public function store(CommentRequest $request, Product $product)
+    {
+        // CommentRequestでバリデーション済みのデータを取得
+        $validated = $request->validated();
+
+        // リレーション経由でコメントを作成
         $product->comments()->create([
-            'user_id' => auth()->id(),
-            'content' => $request->content,
+            'user_id' => $request->user()->id,
+            'content' => $validated['content'],
         ]);
 
-        return back();
+        // 元ページへリダイレクト
+        return back()->with('status', 'コメントを投稿しました。');
     }
 }

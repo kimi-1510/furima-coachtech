@@ -39,6 +39,12 @@ class Product extends Model
         return $this->hasMany(Comment::class);
     }
 
+    // 購入履歴
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
+    }
+
     // 一括代入を許可するカラムを指定
     protected $fillable = [
         'name',
@@ -49,5 +55,10 @@ class Product extends Model
         'image',
         'user_id',
         'is_sold',
+    ];
+
+    // is_soldプロパティへのアクセサ
+    protected $casts = [
+        'is_sold' => 'boolean',
     ];
 }

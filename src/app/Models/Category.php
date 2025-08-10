@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Product;
 
 class Category extends Model
 {
     use HasFactory;
+
+    // 一括代入を許可するカラムを定義
+    protected $fillable = ['name'];
 
     // カテゴリに属する商品（多対多）
     public function products()

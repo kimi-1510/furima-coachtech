@@ -62,4 +62,98 @@
 
         <button type="submit">更新する</button> <!--更新ボタン -->
     </form>
+
+    {{-- 購入した商品一覧 --}}
+    <div class="purchased-products-section">
+        <h3>購入した商品一覧</h3>
+        @if($user->purchases->count() > 0)
+            <div class="purchased-products-list">
+                @foreach($user->purchases as $purchase)
+                    <div class="purchased-product-item">
+                        <div class="product-image">
+                            <img src="{{ asset('storage/' . $purchase->product->image) }}" alt="商品画像">
+                        </div>
+                        <div class="product-info">
+                            <h4 class="product-name">{{ $purchase->product->name }}</h4>
+                            <p class="product-price">¥{{ number_format($purchase->product->price) }}</p>
+                            <p class="purchase-date">購入日: {{ $purchase->created_at->format('Y年m月d日') }}</p>
+                            <p class="payment-method">支払い方法: {{ $purchase->payment_method_name }}</p>
+                            <p class="shipping-address">配送先: {{ $purchase->shipping_address }}</p>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @else
+            <p class="no-purchases">購入した商品はありません。</p>
+        @endif
+    </div>
+</div>
+
+<style>
+.purchased-products-section {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid #ddd;
+}
+
+.purchased-products-section h3 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 18px;
+}
+
+.purchased-products-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.purchased-product-item {
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background: #f9f9f9;
+}
+
+.product-image img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.product-info {
+    flex: 1;
+}
+
+.product-name {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.product-price {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+.purchase-date,
+.payment-method,
+.shipping-address {
+    margin: 0 0 3px 0;
+    font-size: 12px;
+    color: #666;
+}
+
+.no-purchases {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+}
+</style>
 @endsection

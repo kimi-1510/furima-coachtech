@@ -9,6 +9,11 @@ class Like extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'product_id',
+    ];
+
     // いいねしたユーザー
     public function user()
     {

@@ -17,7 +17,6 @@ class CreateLikesTable extends Migration
             $table->id(); // id（自動で連番）
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // いいねしたユーザー
             $table->foreignId('product_id')->constrained()->onDelete('cascade'); //いいねされた商品
-        
             $table->timestamps();
         });
     }

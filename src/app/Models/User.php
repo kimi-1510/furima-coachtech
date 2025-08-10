@@ -63,4 +63,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class);
     }
+
+    // 購入履歴
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
+    }
+
+    // フルアドレスを取得
+    public function getFullAddressAttribute()
+    {
+        $address = $this->address;
+        if ($this->building) {
+            $address .= ' ' . $this->building;
+        }
+        return $address;
+    }
 }

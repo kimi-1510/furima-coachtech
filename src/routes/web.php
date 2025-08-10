@@ -8,61 +8,58 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\StripeController;
 
-// ==============================
-// ユーザー認証・プロフィール関連
-// ==============================
-
-// 新規ユーザー登録画面の表示
-Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
-
-// 入力データを受け取ってユーザー登録
-Route::post('/register', [RegisteredUserController::class, 'store']);
-
-// プロフィール編集画面の表示
-Route::get('/mypage/profile', [ProfileController::class, 'profile'])
-    ->middleware('auth')->name('mypage.profile'); // 認証済みユーザーのみアクセス可能
-
-// プロフィール更新処理
-Route::put('/mypage/profile', [ProfileController::class, 'update'])
-    ->middleware('auth')->name('mypage.profile.update'); // 認証済みユーザーのみアクセス可能
-
-// ==============================
-// 商品関連
-// ==============================
-
-// 商品一覧画面（トップ画面）の表示
+// ---------------------
+// 認証不要：公開ページ
+// ---------------------
 Route::get('/', [ProductController::class, 'index'])->name('products.index');
 
-// 商品詳細画面の表示
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
+Route::get('/products/{product}/purchase', [ProductController::class, 'purchase'])->name('products.purchase');
 
-// ==============================
-// 検索機能
-// ==============================
-
-// ヘッダー検索フォームからキーワードを受け取り、商品を検索
 Route::get('/search', [SearchController::class, 'index'])->name('search');
 
-// ==============================
-// ログイン関連
-// ==============================
+// Stripe Webhook（認証不要）
+Route::post('/stripe/webhook', [StripeController::class, 'webhook'])->name('stripe.webhook');
 
-// ログイン画面の表示
-Route::get('/login', [LoginController::class, 'loginForm'])->name('login');
+// ---------------------
+// ゲスト専用：ログイン/登録
+// ---------------------
+Route::middleware('guest')->group(function () {
+    Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
+    Route::post('/register', [RegisteredUserController::class, 'store']);
 
-// ログイン処理
-Route::post('/login', [LoginController::class, 'login']);
+    Route::get('/login', [LoginController::class, 'loginForm'])->name('login');
+    Route::post('/login', [LoginController::class, 'login']);
+});
 
-// ==============================
-// いいね・コメント機能
-// ==============================
+// ---------------------
+// 認証済み専用：マイページ・いいね・コメント
+// ---------------------
+Route::middleware('auth')->group(function () {
+    // プロフィール
+    Route::get('/mypage/profile', [ProfileController::class, 'profile'])->name('mypage.profile');
+    Route::put('/mypage/profile', [ProfileController::class, 'update'])->name('mypage.profile.update');
 
-// 商品にいいねをつける
-Route::post('/products/{product}/like', [LikeController::class, 'store'])->middleware('auth')->name('products.like');
+    // 配送先住所変更
+    Route::get('/mypage/shipping/edit', [ProfileController::class, 'editShipping'])->name('mypage.shipping.edit');
+    Route::put('/mypage/shipping/update', [ProfileController::class, 'updateShipping'])->name('mypage.shipping.update');
 
-// 商品のいいねを解除する
-Route::delete('/products/{product}/like', [LikeController::class, 'destroy'])->middleware('auth')->name('products.unlike');
+    // ログアウト
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// 商品にコメントを投稿する
-Route::post('/products/{product}/comments', [CommentController::class, 'store'])->middleware('auth')->name('products.comments.store');
+    // いいね機能
+    Route::post('/products/{product}/like',   [LikeController::class, 'store'])->name('products.like');
+    Route::delete('/products/{product}/like',   [LikeController::class, 'destroy'])->name('products.unlike');
+
+    // コメント投稿
+    Route::post('/products/{product}/comments', [CommentController::class, 'store'])->name('products.comments.store');
+
+    // 商品購入処理
+    Route::post('/products/{product}/purchase', [ProductController::class, 'processPurchase'])->name('products.purchase.process');
+
+    // Stripe決済
+    Route::get('/stripe/checkout/{product}', [StripeController::class, 'checkout'])->name('stripe.checkout');
+    Route::get('/stripe/success/{product}', [StripeController::class, 'success'])->name('stripe.success');
+});

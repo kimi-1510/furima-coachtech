@@ -2,47 +2,79 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
-    // プロフィール編集画面を表示するメソッド
+    // プロフィール画面表示
     public function profile()
     {
-        // 認証済みユーザーの情報を取得
         $user = Auth::user();
-
-        // プロフィール編集画面を表示
         return view('mypage.profile', compact('user'));
     }
-    // プロフィール更新処理
-    public function update(ProfileRequest $request)
+
+    // プロフィール更新
+    public function update(Request $request)
     {
-        $data = $request->validated(); // バリデーション済データを取得
-        $user = Auth::user(); // ログイン中のユーザー取得
+        $user = Auth::user();
+        
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'post_code' => 'required|string|max:8',
+            'address' => 'required|string|max:255',
+            'building' => 'nullable|string|max:255',
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
-        // 画像がアップロードされたら保存＆古い画像を削除
-        if ($request->hasFile('image')) {
-            // storage/app/public/profile_images に保存
-            $path = $request->file('image')->store('profile_images', 'public');
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->post_code = $request->post_code;
+        $user->address = $request->address;
+        $user->building = $request->address;
 
-            // 古い画像があれば削除
+        if ($request->hasFile('profile_image')) {
+            // 古い画像を削除
             if ($user->profile_image) {
-                Storage::disk('public')->delete($user->profile_image);
+                \Storage::disk('public')->delete($user->profile_image);
             }
-
-            $data['profile_image'] = $path;
+            
+            // 新しい画像を保存
+            $path = $request->file('profile_image')->store('profile_images', 'public');
+            $user->profile_image = $path;
         }
-        /** @var \App\Models\User $user */
-        $user->update($data); // ユーザ情報を更新
 
-        // 更新完了メッセージ付きで戻す
-        return redirect()
-            ->route('mypage.profile')
-            ->with('success', 'プロフィールを更新しました！');
+        $user->save();
+
+        return redirect()->route('mypage.profile')->with('success', 'プロフィールが更新されました。');
+    }
+
+    // 配送先住所変更画面表示
+    public function editShipping()
+    {
+        $user = Auth::user();
+        return view('mypage.shipping.edit', compact('user'));
+    }
+
+    // 配送先住所更新
+    public function updateShipping(Request $request)
+    {
+        $user = Auth::user();
+        
+        $request->validate([
+            'post_code' => 'required|string|max:8',
+            'address' => 'required|string|max:255',
+            'building' => 'nullable|string|max:255',
+        ]);
+
+        $user->post_code = $request->post_code;
+        $user->address = $request->address;
+        $user->building = $request->building;
+        $user->save();
+
+        return redirect()->back()->with('success', '配送先住所が更新されました。');
     }
 }
 

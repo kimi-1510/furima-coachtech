@@ -11,8 +11,6 @@
   <link rel="stylesheet" href="/css/sanitize.css"> <!-- リセットCSS -->
   <link rel="stylesheet" href="/css/layout.css"> <!-- layout CSS -->
 
-
-
 </head>
 
 <body>

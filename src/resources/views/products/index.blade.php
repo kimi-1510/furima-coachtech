@@ -34,7 +34,15 @@
       @endif
     </div>
   @empty
-    <p class="no-products">表示できる商品がありません。</p>
+    @if(request('tab') === 'mylist')
+      @if(auth()->check())
+        <p class="no-products">いいねした商品がありません。</p>
+      @else
+        <p class="no-products">ログインが必要です。</p>
+      @endif
+    @else
+      <p class="no-products">表示できる商品がありません。</p>
+    @endif
   @endforelse
 </div>
 @endsection

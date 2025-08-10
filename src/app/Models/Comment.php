@@ -9,6 +9,8 @@ class Comment extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['user_id', 'product_id', 'content'];
+
     // コメントしたユーザー
     public function user()
     {
