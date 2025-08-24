@@ -21,7 +21,7 @@ class CreateProductsTable extends Migration
             $table->text('description'); // 商品説明
             $table->string('status'); // 商品の状態（'良好'，'目立った傷や汚れなし'，'やや傷や汚れあり'，'状態が悪い'）
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // 出品者
-            $table->foreignId('brand_id')->nullable()->constrained()->onDelete('set null'); // ブランド名
+            $table->string('brand_name')->nullable(); // ブランド名（入力方式）
             $table->boolean('is_sold')->default(false); // 売り切れかどうか
             $table->timestamps(); // created_at, updated_at
         });

@@ -3,8 +3,9 @@
     display: flex;                 /* 子要素を横並びに */
     flex-wrap: wrap;               /* 画面幅が狭いときは折り返す */
     gap: 60px;                     /* 子要素間の余白 */
-    margin: 40px 0;                /* 上下の余白 */
-    padding-inline: 100px;
+    margin: 40px auto;             /* 上下の余白、左右中央 */
+    max-width: 1200px;             /* 最大幅を制限 */
+    padding: 0 20px;               /* 左右のパディング */
 }
 
 /* 左カラムの幅調整 */
@@ -263,8 +264,37 @@
 
 
 /* レスポンシブ調整 */
-@media (min-width: 1400px) {
-    .form-container {
-        max-width: 600px;
+@media (max-width: 1200px) {
+    .product-detail {
+        margin: 40px 20px;
+        max-width: none;
+    }
 }
+
+@media (max-width: 900px) {
+    .product-detail {
+        flex-direction: column;
+        gap: 30px;
+        margin: 20px 20px;
+    }
+    
+    .product-detail__left,
+    .product-detail__right {
+        padding: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .product-detail {
+        margin: 20px 10px;
+        gap: 20px;
+    }
+    
+    .product-detail__title {
+        font-size: 1.25rem;
+    }
+    
+    .product-detail__counts {
+        gap: 20px;
+    }
 }

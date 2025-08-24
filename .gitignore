@@ -1,1 +1,6 @@
 /docker/mysql/data/
+
+!src/storage/app/public/product_images/
+!src/storage/app/public/product_images/*.jpg
+!src/storage/app/public/product_images/*.png
+!src/storage/app/public/product_images/*.gif

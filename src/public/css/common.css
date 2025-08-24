@@ -68,12 +68,9 @@ button:hover {
     height: 100px;
     border-radius: 50%;
     object-fit: cover;
+    background-color: #d9d9d9;
     border: 2px solid #ccc;
     flex-shrink: 0;
-}
-
-.profile-placeholder {
-    background-color: #d9d9d9;
 }
 
 
@@ -93,9 +90,95 @@ button:hover {
     display: none;
 }
 
+
+
 /* レスポンシブ調整 */
 @media (min-width: 1400px) {
     .form-container {
         max-width: 600px;
+    }
 }
+
+/* 商品出品画面用のスタイル */
+.category-selection {
+    margin-top: 4px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px;
+    min-height: 60px;
+}
+
+.category-option {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.category-checkbox {
+    display: none;
+}
+
+.category-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 16px;
+    color: #ff5454;
+    border: 2px solid #ff5454;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.category-checkbox:checked + .category-badge {
+    background-color: #ff5454;
+    color: #fff;
+    border-color: #ff5454;
+}
+
+.category-option:hover .category-badge {
+    background-color: #ccc;
+    border-color: #ccc;
+}
+
+.category-checkbox:checked + .category-badge:hover {
+    background-color: #cf3f3f;
+    border-color: #cf3f3f;
+}
+
+.price-input {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.price-input .common-input {
+    margin-right: 8px;
+    flex: 1;
+}
+
+.price-unit {
+    font-size: 1.1em;
+    color: #666;
+    font-weight: bold;
+}
+
+textarea.common-input {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* 商品出品画面のフォーム調整 */
+.form-container h2 {
+    margin-bottom: 24px;
+}
+
+.form-container label {
+    margin-top: 20px;
+}
+
+.form-container .common-input {
+    margin-top: 6px;
+}
+
+.form-container .common-btn {
+    margin-top: 32px;
 }

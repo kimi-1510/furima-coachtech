@@ -14,8 +14,9 @@ class CommentController extends Controller
     }
 
     // コメント投稿
-    public function store(CommentRequest $request, Product $product)
+    public function store(CommentRequest $request, $item_id)
     {
+        $product = Product::findOrFail($item_id);
         // CommentRequestでバリデーション済みのデータを取得
         $validated = $request->validated();
 

@@ -1,6 +1,30 @@
 @extends('layouts.app')
 
 @section('content')
+@php
+    $sessionPaymentMethod = session('selected_payment_method');
+    $oldPaymentMethod = old('payment_method');
+    
+    // デバッグ用（開発時のみ表示）
+    if (config('app.debug')) {
+        \Log::info("Payment method debug", [
+            'session_payment_method' => $sessionPaymentMethod,
+            'session_payment_method_type' => gettype($sessionPaymentMethod),
+            'old_payment_method' => $oldPaymentMethod,
+            'old_payment_method_type' => gettype($oldPaymentMethod)
+        ]);
+    }
+    
+    // セッションの値が配列でないことを確認
+    if (is_array($sessionPaymentMethod)) {
+        $sessionPaymentMethod = null;
+    }
+    if (is_array($oldPaymentMethod)) {
+        $oldPaymentMethod = null;
+    }
+    
+    $currentPaymentMethod = $sessionPaymentMethod ?? $oldPaymentMethod ?? 'convenience';
+@endphp
 <link rel="stylesheet" href="/css/purchase.css">
 
 <div class="purchase-container">
@@ -22,14 +46,18 @@
             <div class="payment-section">
                 <div class="section-header">
                     <h3 class="section-title">支払い方法</h3>
-                    <span class="selected-payment">{{ old('payment_method', 'convenience') == 'convenience' ? 'コンビニ支払い' : 'カード支払い' }}</span>
                 </div>
-                <form method="POST" action="{{ route('products.purchase.process', $product) }}" id="payment-form">
+                <form method="POST" action="{{ route('products.payment.method', $product->id) }}" id="payment-method-form">
                     @csrf
                     <select name="payment_method" class="payment-select" onchange="this.form.submit()">
-                        <option value="convenience" {{ old('payment_method', 'convenience') == 'convenience' ? 'selected' : '' }}>コンビニ支払い</option>
-                        <option value="card" {{ old('payment_method', 'convenience') == 'card' ? 'selected' : '' }}>カード支払い</option>
+                        <option value="convenience" {{ $currentPaymentMethod == 'card' ? '' : 'selected' }}>コンビニ支払い</option>
+                        <option value="card" {{ $currentPaymentMethod == 'card' ? 'selected' : '' }}>カード支払い</option>
                     </select>
+                </form>
+                
+                <form method="POST" action="{{ route('products.purchase.process', $product->id) }}" id="payment-form">
+                    @csrf
+                    <input type="hidden" name="payment_method" value="{{ $currentPaymentMethod }}">
                 </form>
             </div>
 
@@ -37,10 +65,36 @@
             <div class="shipping-section">
                 <div class="section-header">
                     <h3 class="section-title">配送先</h3>
-                    <a href="{{ route('mypage.shipping.edit') }}" class="edit-link">変更する</a>
+                    <a href="{{ route('mypage.shipping.edit', $product->id) }}" class="edit-link">変更する</a>
                 </div>
                 <div class="address-display">
-                    <p class="current-address">{{ auth()->user()->full_address }}</p>
+                    @php
+                        $shippingAddress = session("shipping_address_{$product->id}");
+                        
+                        // セッションの値を安全に取得
+                        if (is_array($shippingAddress) && isset($shippingAddress['post_code'])) {
+                            $displayPostCode = $shippingAddress['post_code'];
+                        } else {
+                            $displayPostCode = auth()->user()->post_code ?? '';
+                        }
+                        
+                        if (is_array($shippingAddress) && isset($shippingAddress['address'])) {
+                            $displayAddress = $shippingAddress['address'];
+                        } else {
+                            $displayAddress = auth()->user()->address ?? '';
+                        }
+                        
+                        if (is_array($shippingAddress) && isset($shippingAddress['building'])) {
+                            $displayBuilding = $shippingAddress['building'];
+                        } else {
+                            $displayBuilding = auth()->user()->building ?? '';
+                        }
+                        
+                        // 住所の組み立て
+                        $fullAddress = trim($displayAddress . ' ' . $displayBuilding);
+                    @endphp
+                    <p class="post-code">〒{{ $displayPostCode }}</p>
+                    <p class="current-address">{{ $fullAddress }}</p>
                 </div>
             </div>
         </div>
@@ -49,19 +103,23 @@
         <div class="right-section">
             {{-- 商品代金 --}}
             <div class="price-summary">
-                <h3 class="section-title">商品代金</h3>
-                <div class="payment-info">
-                    <span class="payment-label">商品代金</span>
-                    <span class="payment-value">¥{{ number_format($product->price) }}</span>
+                <div class="info-row">
+                    <span class="info-label">商品代金</span>
+                    <span class="info-value price-value">¥{{ number_format($product->price) }}</span>
                 </div>
             </div>
 
             {{-- 支払い方法表示 --}}
             <div class="payment-display">
-                <h3 class="section-title">支払い方法</h3>
-                <div class="payment-info">
-
-                    <span class="payment-value">{{ old('payment_method', 'コンビニ支払い') }}</span>
+                <div class="info-row">
+                    <span class="info-label">支払い方法</span>
+                    <span class="info-value payment-method-value">
+                        @if($currentPaymentMethod == 'card')
+                            カード支払い
+                        @else
+                            コンビニ支払い
+                        @endif
+                    </span>
                 </div>
             </div>
 
@@ -75,21 +133,6 @@
     </div>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const paymentSelect = document.querySelector('select[name="payment_method"]');
-    const paymentValue = document.querySelector('.payment-value');
-    
-    // 支払い方法の選択を監視
-    paymentSelect.addEventListener('change', function() {
-        const selectedText = this.options[this.selectedIndex].text;
-        paymentValue.textContent = selectedText;
-    });
-    
-    // 初期値の設定
-    const initialText = paymentSelect.options[paymentSelect.selectedIndex].text;
-    paymentValue.textContent = initialText;
-});
-</script>
+
 
 @endsection

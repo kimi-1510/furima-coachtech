@@ -14,8 +14,9 @@ class LikeController extends Controller
     }
 
     // いいね追加
-    public function store(Product $product)
+    public function store($item_id)
     {
+        $product = Product::findOrFail($item_id);
         $product->likes()->firstOrCreate(['user_id' => auth()->id(),]);
 
         // いいね数を最新化
@@ -25,8 +26,9 @@ class LikeController extends Controller
     }
 
     // いいね解除
-    public function destroy(Product $product)
+    public function destroy($item_id)
     {
+        $product = Product::findOrFail($item_id);
         $product->likes()->where('user_id', auth()->id())->delete();
 
         // いいね数を最新化

@@ -4,105 +4,110 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Product;
-use App\Models\Brand;
 
 class ProductSeeder extends Seeder
 {
     public function run()
     {
-        // ブランドを作成
-        $rolax = Brand::firstOrCreate(['name' => 'Rolax']);
-        $nishiba = Brand::firstOrCreate(['name' => '西芝']);
-        $starbacks = Brand::firstOrCreate(['name' => 'Starbacks']);
+        // ブランドテーブルは不要になったため、ブランド作成処理を削除
 
-        // 商品データ
+        // 商品データ（user_idとbrand_nameを含む）
         $products = [
             [
                 'name' => '腕時計',
                 'price' => 15000,
-                'brand_id' => $rolax->id,
+                'brand_name' => 'Rolax',
                 'description' => 'スタイリッシュなデザインのメンズ腕時計',
                 'status' => '良好',
-                'image' => 'product_images/腕時計.jpg',
+                'image' => 'storage/product_images/腕時計.jpg',
+                'user_id' => 1, // Admin User
             ],
             [
                 'name' => 'HDD',
                 'price' => 5000,
-                'brand_id' => $nishiba->id,
+                'brand_name' => '西芝',
                 'description' => '高速で信頼性の高いハードディスク',
                 'status' => '目立った傷や汚れなし',
-                'image' => 'product_images/HDD.jpg',
+                'image' => 'storage/product_images/HDD.jpg',
+                'user_id' => 2, // Test User 1
             ],
             [
                 'name' => '玉ねぎ3束',
                 'price' => 300,
-                'brand_id' => null,
+                'brand_name' => null,
                 'description' => '新鮮な玉ねぎ3束のセット',
                 'status' => 'やや傷や汚れあり',
-                'image' => 'product_images/玉ねぎ3束.jpg',
+                'image' => 'storage/product_images/玉ねぎ3束.jpg',
+                'user_id' => 3, // Test User 2
             ],
             [
                 'name' => '革靴',
                 'price' => 4000,
-                'brand_id' => null,
+                'brand_name' => null,
                 'description' => 'クラシックなデザインの革靴',
                 'status' => '状態が悪い',
-                'image' => 'product_images/革靴.jpg',
+                'image' => 'storage/product_images/革靴.jpg',
+                'user_id' => 4, // Customer User
             ],
             [
                 'name' => 'ノートPC',
                 'price' => 45000,
-                'brand_id' => null,
+                'brand_name' => null,
                 'description' => '高性能なノートパソコン',
                 'status' => '良好',
-                'image' => 'product_images/ノートPC.jpg',
+                'image' => 'storage/product_images/ノートPC.jpg',
+                'user_id' => 5, // Seller User
             ],
             [
                 'name' => 'マイク',
                 'price' => 8000,
-                'brand_id' => null,
+                'brand_name' => null,
                 'description' => '高音質のレコーディング用マイク',
                 'status' => '目立った傷や汚れなし',
-                'image' => 'product_images/マイク.jpg',
+                'image' => 'storage/product_images/マイク.jpg',
+                'user_id' => 1, // Admin User
             ],
             [
                 'name' => 'ショルダーバッグ',
                 'price' => 3500,
-                'brand_id' => null,
+                'brand_name' => null,
                 'description' => 'おしゃれなショルダーバッグ',
                 'status' => 'やや傷や汚れあり',
-                'image' => 'product_images/ショルダーバッグ.jpg',
+                'image' => 'storage/product_images/ショルダーバッグ.jpg',
+                'user_id' => 2, // Test User 1
             ],
             [
                 'name' => 'タンブラー',
                 'price' => 500,
-                'brand_id' => null,
+                'brand_name' => null,
                 'description' => '使いやすいタンブラー',
                 'status' => '状態が悪い',
-                'image' => 'product_images/タンブラー.jpg',
+                'image' => 'storage/product_images/タンブラー.jpg',
+                'user_id' => 3, // Test User 2
             ],
             [
                 'name' => 'コーヒーミル',
                 'price' => 4000,
-                'brand_id' => $starbacks->id,
+                'brand_name' => 'Starbacks',
                 'description' => '手動のコーヒーミル',
                 'status' => '良好',
-                'image' => 'product_images/コーヒーミル.jpg',
+                'image' => 'storage/product_images/コーヒーミル.jpg',
+                'user_id' => 4, // Customer User
             ],
             [
                 'name' => 'メイクセット',
                 'price' => 2500,
-                'brand_id' => null,
+                'brand_name' => null,
                 'description' => '便利なメイクアップセット',
                 'status' => '目立った傷や汚れなし',
-                'image' => 'product_images/メイクセット.jpg',
+                'image' => 'storage/product_images/メイクセット.jpg',
+                'user_id' => 5, // Seller User
             ],
         ];
 
-        // 商品を登録（いったんuser_id=1で登録。必要に応じて変更）
+        // 商品を登録
         foreach ($products as $data) {
             Product::create(array_merge($data, [
-                'user_id' => 1,
                 'is_sold' => false,
             ]));
         }

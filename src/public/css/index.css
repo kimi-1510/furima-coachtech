@@ -2,10 +2,13 @@
     display: flex;
     flex-wrap: wrap;
     gap: 32px; /* カード同士のスペースを広げる */
-    margin: 24px 40px 40px 40px; /* 上 右 下 左 */
+    margin: 24px auto 40px auto; /* 上 下 左右中央 */
+    max-width: 1200px; /* 最大幅を制限 */
+    padding: 0 20px; /* 左右のパディング */
 }
 .product-card {
     width: calc(25% - 24px); /* gapが32pxなので、-24pxで調整 */
+    min-width: 200px; /* 最小幅を設定 */
     text-align: center;
     padding: 8px 4px 6px 4px; /* 余白を小さく */
     transition: box-shadow 0.2s;
@@ -53,10 +56,11 @@
 .tab-links {
     display: flex;
     gap: 24px;
-    margin: 24px 0 0 0;
+    margin: 24px auto 0 auto; /* 左右中央 */
     font-size: 1.1em;
-    padding-left: 100px;
+    padding: 0 20px; /* 左右のパディング */
     border-bottom: 2px solid #5e5e5e;
+    max-width: 1200px; /* 最大幅を制限 */
 }
 .tab-links a {
     text-decoration: none;
@@ -71,8 +75,10 @@
 
 /* 検索結果情報 */
 .search-info {
-    margin: 16px 0;
+    margin: 16px auto;
     text-align: center;
+    max-width: 1200px; /* 最大幅を制限 */
+    padding: 0 20px; /* 左右のパディング */
 }
 
 .search-info p {
@@ -105,8 +111,26 @@
 
 
 /* レスポンシブ調整 */
-@media (min-width: 1400px) {
-    .form-container {
-        max-width: 600px;
+@media (max-width: 1200px) {
+    .product-card {
+        width: calc(33.333% - 24px);
+    }
 }
+
+@media (max-width: 900px) {
+    .product-card {
+        width: calc(50% - 24px);
+    }
+}
+
+@media (max-width: 600px) {
+    .product-card {
+        width: 100%;
+    }
+    .product-list {
+        margin: 24px 10px 40px 10px;
+    }
+    .tab-links {
+        padding-left: 10px;
+    }
 }

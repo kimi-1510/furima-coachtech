@@ -6,9 +6,17 @@ use App\Models\Product;
 use App\Models\Purchase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Category;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
+    public function __construct()
+    {
+        // 購入関連のメソッドに認証を必須にする
+        $this->middleware('auth')->only(['purchase', 'processPurchase', 'updatePaymentMethod']);
+    }
+
     // 商品一覧表示
     public function index(Request $request)
     {
@@ -47,8 +55,9 @@ class ProductController extends Controller
     }
 
     // 商品詳細表示
-    public function show(Product $product)
+    public function show($item_id)
     {
+        $product = Product::findOrFail($item_id);
         // 関連データもまとめて取得
         $product->load(['brand', 'categories', 'likes', 'comments.user']);
 
@@ -56,17 +65,25 @@ class ProductController extends Controller
     }
 
     // 商品購入画面表示
-    public function purchase(Product $product)
+    public function purchase($item_id)
     {
+        $product = Product::findOrFail($item_id);
         // 関連データもまとめて取得
         $product->load(['brand', 'categories']);
 
         return view('products.purchase', compact('product'));
     }
 
-    // 商品購入処理（コンビニ支払い）
-    public function processPurchase(Request $request, Product $product)
+    // 商品購入処理
+    public function processPurchase(Request $request, $item_id)
     {
+        \Log::info('processPurchase method called', [
+            'item_id' => $item_id,
+            'payment_method' => $request->input('payment_method'),
+            'user_id' => auth()->id()
+        ]);
+
+        $product = Product::findOrFail($item_id);
         // 商品が売り切れでないかチェック
         if ($product->is_sold) {
             return redirect()->back()->with('error', 'この商品は既に売り切れです。');
@@ -82,22 +99,101 @@ class ProductController extends Controller
             'payment_method' => 'required|in:convenience,card',
         ]);
 
-        try {
-            // 商品を売り切れ状態に更新
-            $product->update(['is_sold' => true]);
+        \Log::info('Validation passed, redirecting to Stripe', [
+            'product_id' => $product->id,
+            'payment_method' => $request->payment_method
+        ]);
 
-            // 購入履歴を作成
-            Purchase::create([
-                'product_id' => $product->id,
+        // 支払い方法に関係なく、Stripe決済画面に遷移
+        // 支払い方法をセッションに保存（Stripe決済完了後に使用）
+        session([
+            'purchase_payment_method' => $request->payment_method,
+            'purchase_item_id' => $item_id
+        ]);
+
+        return redirect()->route('stripe.checkout', $product->id);
+    }
+
+    // 支払い方法の更新（表示更新用）
+    public function updatePaymentMethod(Request $request, $item_id)
+    {
+        $request->validate([
+            'payment_method' => 'required|in:convenience,card',
+        ]);
+
+        // セッションに支払い方法を保存
+        session(['selected_payment_method' => $request->payment_method]);
+
+        // 支払い方法の選択のみを更新（購入処理は行わない）
+        return redirect()->route('products.purchase', $item_id)
+            ->withInput($request->only('payment_method'));
+    }
+
+    // 商品出品画面を表示
+    public function create()
+    {
+        $categories = Category::all();
+        
+        return view('products.create', compact('categories'));
+    }
+
+    // 商品出品処理
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:1000',
+            'price' => 'required|integer|min:1',
+            'status' => 'required|in:良好,目立った傷や汚れなし,やや傷や汚れあり,状態が悪い',
+            'brand_name' => 'nullable|string|max:255',
+            'categories' => 'required|array|min:1',
+            'categories.*' => 'exists:categories,id',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ], [
+            'name.required' => '商品名は必須です',
+            'description.required' => '商品の説明は必須です',
+            'price.required' => '販売価格は必須です',
+            'price.integer' => '販売価格は数値で入力してください',
+            'price.min' => '販売価格は1円以上で入力してください',
+            'status.required' => '商品の状態は必須です',
+            'status.in' => '商品の状態は選択肢から選んでください',
+            'categories.required' => 'カテゴリは必須です',
+            'categories.min' => 'カテゴリは1つ以上選択してください',
+            'image.required' => '商品画像は必須です',
+            'image.image' => '画像ファイルを選択してください',
+            'image.mimes' => '対応している画像形式はjpeg, png, jpg, gifです',
+            'image.max' => '画像サイズは2MB以下にしてください',
+        ]);
+
+        try {
+            // 画像をアップロード
+            $imagePath = $request->file('image')->store('products', 'public');
+            
+            // 商品を作成
+            $product = Product::create([
+                'name' => $request->name,
+                'description' => $request->description,
+                'price' => $request->price,
+                'status' => $request->status,
+                'brand_name' => $request->brand_name,
+                'image' => $imagePath,
                 'user_id' => auth()->id(),
-                'shipping_address' => auth()->user()->full_address,
-                'payment_method' => $request->payment_method,
-                'status' => Purchase::STATUS_COMPLETED,
+                'is_sold' => false,
             ]);
 
-            return redirect()->route('products.index')->with('success', '商品の購入が完了しました！');
+            // カテゴリを関連付け
+            $product->categories()->attach($request->categories);
+
+            return redirect()->route('products.show', $product->id)
+                ->with('success', '商品を出品しました！');
+
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', '購入処理中にエラーが発生しました。');
+            // 画像アップロードに失敗した場合、画像を削除
+            if (isset($imagePath) && Storage::disk('public')->exists($imagePath)) {
+                Storage::disk('public')->delete($imagePath);
+            }
+            
+            return back()->withInput()->withErrors(['error' => '商品の出品に失敗しました。もう一度お試しください。']);
         }
     }
 }

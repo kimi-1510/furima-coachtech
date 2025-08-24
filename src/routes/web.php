@@ -15,8 +15,8 @@ use App\Http\Controllers\StripeController;
 // ---------------------
 Route::get('/', [ProductController::class, 'index'])->name('products.index');
 
-Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
-Route::get('/products/{product}/purchase', [ProductController::class, 'purchase'])->name('products.purchase');
+Route::get('/item/{item_id}', [ProductController::class, 'show'])->name('products.show');
+Route::get('/purchase/{item_id}', [ProductController::class, 'purchase'])->name('products.purchase');
 
 Route::get('/search', [SearchController::class, 'index'])->name('search');
 
@@ -38,28 +38,36 @@ Route::middleware('guest')->group(function () {
 // 認証済み専用：マイページ・いいね・コメント
 // ---------------------
 Route::middleware('auth')->group(function () {
+    // 商品出品
+    Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
+    Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+
     // プロフィール
-    Route::get('/mypage/profile', [ProfileController::class, 'profile'])->name('mypage.profile');
-    Route::put('/mypage/profile', [ProfileController::class, 'update'])->name('mypage.profile.update');
+    Route::get('/mypage', [ProfileController::class, 'index'])->name('mypage.index');
+    Route::get('/mypage/edit', [ProfileController::class, 'profile'])->name('mypage.profile');
+    Route::put('/mypage/edit', [ProfileController::class, 'update'])->name('mypage.profile.update');
 
     // 配送先住所変更
-    Route::get('/mypage/shipping/edit', [ProfileController::class, 'editShipping'])->name('mypage.shipping.edit');
-    Route::put('/mypage/shipping/update', [ProfileController::class, 'updateShipping'])->name('mypage.shipping.update');
+    Route::get('/purchase/address/{item_id}', [ProfileController::class, 'editShipping'])->name('mypage.shipping.edit');
+    Route::put('/purchase/address/{item_id}', [ProfileController::class, 'updateShipping'])->name('mypage.shipping.update');
 
     // ログアウト
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
     // いいね機能
-    Route::post('/products/{product}/like',   [LikeController::class, 'store'])->name('products.like');
-    Route::delete('/products/{product}/like',   [LikeController::class, 'destroy'])->name('products.unlike');
+    Route::post('/item/{item_id}/like',   [LikeController::class, 'store'])->name('products.like');
+    Route::delete('/item/{item_id}/like',   [LikeController::class, 'destroy'])->name('products.unlike');
 
     // コメント投稿
-    Route::post('/products/{product}/comments', [CommentController::class, 'store'])->name('products.comments.store');
+    Route::post('/item/{item_id}/comments', [CommentController::class, 'store'])->name('products.comments.store');
 
     // 商品購入処理
-    Route::post('/products/{product}/purchase', [ProductController::class, 'processPurchase'])->name('products.purchase.process');
+    Route::post('/purchase/{item_id}', [ProductController::class, 'processPurchase'])->name('products.purchase.process');
+    
+    // 支払い方法更新
+    Route::post('/purchase/{item_id}/payment-method', [ProductController::class, 'updatePaymentMethod'])->name('products.payment.method');
 
     // Stripe決済
-    Route::get('/stripe/checkout/{product}', [StripeController::class, 'checkout'])->name('stripe.checkout');
-    Route::get('/stripe/success/{product}', [StripeController::class, 'success'])->name('stripe.success');
+    Route::get('/stripe/checkout/{item_id}', [StripeController::class, 'checkout'])->name('stripe.checkout');
+    Route::get('/stripe/success/{item_id}', [StripeController::class, 'success'])->name('stripe.success');
 });

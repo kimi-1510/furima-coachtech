@@ -17,7 +17,7 @@
 <nav class="navbar">
   <div class="navbar-container">
     <!-- 左：ロゴ -->
-    <a href="{{ route('register') }}" class="navbar-brand">
+    <a href="/" class="navbar-brand">
       <img src="/images/logo.svg" alt="coachtech" class="navbar-logo">
     </a>
 
@@ -28,12 +28,16 @@
     </form>
     @endif
 
-    <!-- 右：ログアウト or ログイン -->
+    <!-- 右：マイページ or ログアウト or ログイン -->
     @auth
-    <form method="POST" action="{{ route('logout') }}" class="logout-form">
-      @csrf
-      <button type="submit" class="logout-btn">ログアウト</button>
-    </form>
+    <div class="user-menu">
+      <a href="{{ route('products.create') }}" class="sell-link">出品</a>
+      <a href="{{ route('mypage.index') }}" class="mypage-link">マイページ</a>
+      <form method="POST" action="{{ route('logout') }}" class="logout-form">
+        @csrf
+        <button type="submit" class="logout-btn">ログアウト</button>
+      </form>
+    </div>
     @endauth
 
     @guest
