@@ -19,7 +19,7 @@ class ProductSeeder extends Seeder
                 'brand_name' => 'Rolax',
                 'description' => 'スタイリッシュなデザインのメンズ腕時計',
                 'status' => '良好',
-                'image' => 'storage/product_images/腕時計.jpg',
+                'image' => 'product_images/腕時計.jpg',
                 'user_id' => 1, // Admin User
             ],
             [
@@ -28,7 +28,7 @@ class ProductSeeder extends Seeder
                 'brand_name' => '西芝',
                 'description' => '高速で信頼性の高いハードディスク',
                 'status' => '目立った傷や汚れなし',
-                'image' => 'storage/product_images/HDD.jpg',
+                'image' => 'product_images/HDD.jpg',
                 'user_id' => 2, // Test User 1
             ],
             [
@@ -37,7 +37,7 @@ class ProductSeeder extends Seeder
                 'brand_name' => null,
                 'description' => '新鮮な玉ねぎ3束のセット',
                 'status' => 'やや傷や汚れあり',
-                'image' => 'storage/product_images/玉ねぎ3束.jpg',
+                'image' => 'product_images/玉ねぎ3束.jpg',
                 'user_id' => 3, // Test User 2
             ],
             [
@@ -46,7 +46,7 @@ class ProductSeeder extends Seeder
                 'brand_name' => null,
                 'description' => 'クラシックなデザインの革靴',
                 'status' => '状態が悪い',
-                'image' => 'storage/product_images/革靴.jpg',
+                'image' => 'product_images/革靴.jpg',
                 'user_id' => 4, // Customer User
             ],
             [
@@ -55,7 +55,7 @@ class ProductSeeder extends Seeder
                 'brand_name' => null,
                 'description' => '高性能なノートパソコン',
                 'status' => '良好',
-                'image' => 'storage/product_images/ノートPC.jpg',
+                'image' => 'product_images/ノートPC.jpg',
                 'user_id' => 5, // Seller User
             ],
             [
@@ -64,7 +64,7 @@ class ProductSeeder extends Seeder
                 'brand_name' => null,
                 'description' => '高音質のレコーディング用マイク',
                 'status' => '目立った傷や汚れなし',
-                'image' => 'storage/product_images/マイク.jpg',
+                'image' => 'product_images/マイク.jpg',
                 'user_id' => 1, // Admin User
             ],
             [
@@ -73,7 +73,7 @@ class ProductSeeder extends Seeder
                 'brand_name' => null,
                 'description' => 'おしゃれなショルダーバッグ',
                 'status' => 'やや傷や汚れあり',
-                'image' => 'storage/product_images/ショルダーバッグ.jpg',
+                'image' => 'product_images/ショルダーバッグ.jpg',
                 'user_id' => 2, // Test User 1
             ],
             [
@@ -82,7 +82,7 @@ class ProductSeeder extends Seeder
                 'brand_name' => null,
                 'description' => '使いやすいタンブラー',
                 'status' => '状態が悪い',
-                'image' => 'storage/product_images/タンブラー.jpg',
+                'image' => 'product_images/タンブラー.jpg',
                 'user_id' => 3, // Test User 2
             ],
             [
@@ -91,7 +91,7 @@ class ProductSeeder extends Seeder
                 'brand_name' => 'Starbacks',
                 'description' => '手動のコーヒーミル',
                 'status' => '良好',
-                'image' => 'storage/product_images/コーヒーミル.jpg',
+                'image' => 'product_images/コーヒーミル.jpg',
                 'user_id' => 4, // Customer User
             ],
             [
@@ -100,7 +100,7 @@ class ProductSeeder extends Seeder
                 'brand_name' => null,
                 'description' => '便利なメイクアップセット',
                 'status' => '目立った傷や汚れなし',
-                'image' => 'storage/product_images/メイクセット.jpg',
+                'image' => 'product_images/メイクセット.jpg',
                 'user_id' => 5, // Seller User
             ],
         ];

@@ -62,7 +62,16 @@ button:hover {
 }
 
 /* プロフィール画像 */
-.profile-image,
+.profile-image
+{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ccc;
+    flex-shrink: 0;
+}
+
 .profile-placeholder {
     width: 100px;
     height: 100px;

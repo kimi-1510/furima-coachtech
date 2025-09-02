@@ -11,7 +11,7 @@
         <p class="success">{{ session('success') }}</p>
     @endif
 
-    <form method="POST" action="{{ route('mypage.profile.update') }}" novalidate> <!-- フォームの送信先 -->
+    <form method="POST" action="{{ route('mypage.profile.update') }}" enctype="multipart/form-data" novalidate> <!-- フォームの送信先 -->
         @csrf <!-- CSRFトークンの挿入 -->
         @method('PUT')
 
@@ -26,7 +26,7 @@
 
             {{-- 画像選択ボタン --}}
             <label for="image" class="image-button">画像を選択する</label>
-            <input type="file" id="image" mane="image" accept="image/png,image/jpeg" class="image-input">
+            <input type="file" id="image" name="image" accept="image/png,image/jpeg,image/jpg" class="image-input">
             @error('image')
                 <p class="error">{{ $message }}</p>
             @enderror
@@ -63,5 +63,6 @@
         <button type="submit" class="common-btn">更新する</button> <!--更新ボタン -->
     </form>
 
+</div>
 
 @endsection

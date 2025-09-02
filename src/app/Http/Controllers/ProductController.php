@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Purchase;
+use App\Http\Requests\ExhibitionRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
@@ -124,7 +125,7 @@ class ProductController extends Controller
         // セッションに支払い方法を保存
         session(['selected_payment_method' => $request->payment_method]);
 
-        // 支払い方法の選択のみを更新（購入処理は行わない）
+        // 支払い方法の選択のみを更新
         return redirect()->route('products.purchase', $item_id)
             ->withInput($request->only('payment_method'));
     }
@@ -138,33 +139,8 @@ class ProductController extends Controller
     }
 
     // 商品出品処理
-    public function store(Request $request)
+    public function store(ExhibitionRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:1000',
-            'price' => 'required|integer|min:1',
-            'status' => 'required|in:良好,目立った傷や汚れなし,やや傷や汚れあり,状態が悪い',
-            'brand_name' => 'nullable|string|max:255',
-            'categories' => 'required|array|min:1',
-            'categories.*' => 'exists:categories,id',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ], [
-            'name.required' => '商品名は必須です',
-            'description.required' => '商品の説明は必須です',
-            'price.required' => '販売価格は必須です',
-            'price.integer' => '販売価格は数値で入力してください',
-            'price.min' => '販売価格は1円以上で入力してください',
-            'status.required' => '商品の状態は必須です',
-            'status.in' => '商品の状態は選択肢から選んでください',
-            'categories.required' => 'カテゴリは必須です',
-            'categories.min' => 'カテゴリは1つ以上選択してください',
-            'image.required' => '商品画像は必須です',
-            'image.image' => '画像ファイルを選択してください',
-            'image.mimes' => '対応している画像形式はjpeg, png, jpg, gifです',
-            'image.max' => '画像サイズは2MB以下にしてください',
-        ]);
-
         try {
             // 画像をアップロード
             $imagePath = $request->file('image')->store('products', 'public');

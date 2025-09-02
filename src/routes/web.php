@@ -39,8 +39,8 @@ Route::middleware('guest')->group(function () {
 // ---------------------
 Route::middleware('auth')->group(function () {
     // 商品出品
-    Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
-    Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+    Route::get('/sell', [ProductController::class, 'create'])->name('products.create');
+    Route::post('/sell', [ProductController::class, 'store'])->name('products.store');
 
     // プロフィール
     Route::get('/mypage', [ProfileController::class, 'index'])->name('mypage.index');

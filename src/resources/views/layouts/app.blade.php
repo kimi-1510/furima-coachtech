@@ -31,17 +31,21 @@
     <!-- 右：マイページ or ログアウト or ログイン -->
     @auth
     <div class="user-menu">
-      <a href="{{ route('products.create') }}" class="sell-link">出品</a>
-      <a href="{{ route('mypage.index') }}" class="mypage-link">マイページ</a>
       <form method="POST" action="{{ route('logout') }}" class="logout-form">
         @csrf
         <button type="submit" class="logout-btn">ログアウト</button>
       </form>
+      <a href="{{ route('mypage.index') }}" class="mypage-link">マイページ</a>
+      <a href="{{ route('products.create') }}" class="sell-link">出品</a>
     </div>
     @endauth
 
     @guest
+    <div class="user-menu">
       <a href="{{ route('login') }}" class="login-link">ログイン</a>
+      <a href="{{ route('login') }}" class="mypage-link">マイページ</a>
+      <a href="{{ route('login') }}" class="sell-link">出品</a>
+    </div>
     @endguest
   </div>
 </nav>

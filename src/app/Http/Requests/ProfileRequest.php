@@ -30,7 +30,7 @@ class ProfileRequest extends FormRequest
             'post_code' => 'required|regex:/^\d{3}-\d{4}$/', // 必須、郵便番号形式（例: 123-4567）
             'address' => 'required', // 必須
             'building' => 'nullable|string', // 必須ではない
-            'image' => 'image|mimes:png,jpeg', // 拡張子が.jpegもしくは.png
+            'image' => 'nullable|image|mimes:png,jpeg,jpg', // 拡張子が.png、.jpeg、.jpg
         ];
     }
 
@@ -44,7 +44,7 @@ class ProfileRequest extends FormRequest
             'post_code.regex' => '郵便番号は「123-4567」の形式で入力してください',
             'address.required' => '住所を入力してください',
             'image.image' => '画像を登録してください',
-            'image.mimes' => '「.png」または「.jpeg」形式でアップロードしてください',
+            'image.mimes' => '「.png」「.jpeg」「.jpg」形式でアップロードしてください',
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 @section('content')
 <link rel="stylesheet" href="/css/common.css">
+<link rel="stylesheet" href="/css/create.css">
 
 <div class="form-container">
     <h2>商品の出品</h2>
@@ -12,28 +13,24 @@
         </div>
     @endif
 
-    @if($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
     <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data" novalidate>
         @csrf
 
         {{-- 商品画像 --}}
         <label for="image">商品画像</label>
-        <input id="image" type="file" name="image" accept="image/*" class="common-input" required>
+        <div class="image-upload-container">
+            <input id="image" type="file" name="image" accept="image/*" class="image-input" required>
+            <label for="image" class="image-upload-btn">画像を選択する</label>
+        </div>
         @error('image')
             <p class="error">{{ $message }}</p>
         @enderror
 
-        {{-- カテゴリ --}}
-        <label for="categories">カテゴリ</label>
+        {{-- 商品の詳細セクション --}}
+        <h3 class="section-title">商品の詳細</h3>
+
+        {{-- カテゴリー --}}
+        <label for="categories">カテゴリー</label>
         <div class="category-selection">
             @foreach($categories as $category)
                 <label class="category-option">
@@ -60,6 +57,9 @@
             <p class="error">{{ $message }}</p>
         @enderror
 
+        {{-- 商品名と説明セクション --}}
+        <h3 class="section-title">商品名と説明</h3>
+
         {{-- 商品名 --}}
         <label for="name">商品名</label>
         <input id="name" type="text" name="name" value="{{ old('name') }}" class="common-input" required>
@@ -76,7 +76,7 @@
 
         {{-- 商品の説明 --}}
         <label for="description">商品の説明</label>
-        <textarea id="description" name="description" class="common-input" rows="5" required>{{ old('description') }}</textarea>
+        <textarea id="description" name="description" class="common-input" rows="5" maxlength="255" required>{{ old('description') }}</textarea>
         @error('description')
             <p class="error">{{ $message }}</p>
         @enderror

@@ -22,7 +22,7 @@ class RegisteredUserController extends Controller
         $data = $request->validated();
 
         // 新しいユーザーをデータベースに保存
-        $user = User::Create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
@@ -32,6 +32,6 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         // 初回登録後はプロフィール設定画面へ遷移
-        return redirect('/mypage/profile');
+        return redirect()->route('mypage.profile');
     }
 }

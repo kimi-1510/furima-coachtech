@@ -15,11 +15,7 @@ class Product extends Model
         return $this->belongsTo(User::class);
     }
 
-    // ブランド
-    public function brand()
-    {
-        return $this->belongsTo(Brand::class);
-    }
+
 
     // カテゴリ（多対多）
     public function categories()
@@ -49,7 +45,7 @@ class Product extends Model
     protected $fillable = [
         'name',
         'price',
-        'brand_id',
+        'brand_name',
         'description',
         'status',
         'image',

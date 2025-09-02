@@ -14,7 +14,7 @@
         <h1 class="product-detail__title">{{ $product->name }}</h1> {{-- 商品名を大見出しで表示 --}}
 
         <p class="product-detail__brand">
-            {{ $product->brand->name ?? 'なし' }}               {{-- ブランドがあれば表示、なければ「なし」 --}}
+            {{ $product->brand_name ?? 'なし' }}               {{-- ブランド名を直接表示 --}}
         </p>
 
         <div class="product-detail__price-row">               {{-- 価格とコメントアイコンを横並び --}}
@@ -100,7 +100,7 @@
                 <div class="comment__user">                             {{-- 各コメントを横並びレイアウト --}}
                     @if($comment->user->profile_image && !empty($comment->user->profile_image))
                         <img
-                            src="{{ $comment->user->profile_image }}"           {{-- ユーザーのプロフィール画像 --}}
+                            src="{{ asset('storage/'.$comment->user->profile_image) }}"           {{-- ユーザーのプロフィール画像 --}}
                             alt="{{ $comment->user->name }}さんのアイコン"
                             class="comment__avatar"                             {{-- 丸く表示するクラス --}}
                         >
