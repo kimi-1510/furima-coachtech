@@ -32,7 +32,7 @@ class ProductController extends Controller
             // ログインユーザーがいいねした商品を取得
             $products = Product::whereHas('likes', function ($query) {
                 $query->where('user_id', auth()->id());
-            })->with(['brand', 'categories', 'likes'])->get();
+            })->with(['categories', 'likes'])->get();
 
             return view('products.index', compact('products'));
         }
@@ -50,7 +50,7 @@ class ProductController extends Controller
         }
 
         // 商品と関連データを取得
-        $products = $query->with(['brand', 'categories', 'likes'])->get();
+        $products = $query->with(['categories', 'likes'])->get();
 
         return view('products.index', compact('products'));
     }
@@ -60,7 +60,7 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($item_id);
         // 関連データもまとめて取得
-        $product->load(['brand', 'categories', 'likes', 'comments.user']);
+        $product->load(['categories', 'likes', 'comments.user']);
 
         return view('products.show', compact('product'));
     }
@@ -70,7 +70,7 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($item_id);
         // 関連データもまとめて取得
-        $product->load(['brand', 'categories']);
+        $product->load(['categories']);
 
         return view('products.purchase', compact('product'));
     }
