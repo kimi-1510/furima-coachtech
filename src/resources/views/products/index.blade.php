@@ -34,7 +34,7 @@
       @endif
     </div>
   @empty
-    @if(request('tab') === 'mylist')
+    <!-- @if(request('tab') === 'mylist')
       @if(auth()->check())
         <p class="no-products">いいねした商品がありません。</p>
       @else
@@ -42,7 +42,7 @@
       @endif
     @else
       <p class="no-products">表示できる商品がありません。</p>
-    @endif
+    @endif -->
   @endforelse
 </div>
 @endsection
