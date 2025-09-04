@@ -1,107 +1,67 @@
-# アプリケーション名(ログイン機能あり)
+# mogitate(商品一覧・登録・削除)
 
-# こっちはブランチ A
-
--   このリポジトリは amd 版です(Windows/IntelCPU の Mac 向け)
-
-## 準備手順(この手順はアプリ完成時には README から削除する)
-
--   Docker Desktop で全コンテナを停止させる
-
--   リモートリポジトリの作成  
-    GitHub でリモートリポジトリを作成  
-    自由にリポジトリ名を入力したら他の設定は変更せずに作成ボタンを押す  
-    作成したら下記を控える  
-    新しいリポジトリの SSH => 上で作成した SSH アドレス  
-    新しいリポジトリの名前 => 上で自由に入力したリポジトリ名
-
--   コマンドライン(Ubuntu or Terminal)を開く
-
--   カレントディレクトリ(現在のディレクトリ)を coachtech に移動する
-
--   以下のコマンドを実行する
-
-```
-git clone git@github.com:tamachima327/laravel-template.git
-```
-
-```
-yes | rm -r laravel-template/.git
-```
-
-```
-git clone 新しいリポジトリのSSH
-```
-
-```
-mv laravel-template/* laravel-template/.[^\.]* 新しいリポジトリの名前
-```
-
-```
-rm -r laravel-template
-```
-
-```
-cd 新しいリポジトリの名前
-```
-
-```
-code .
-```
 
 ## 環境構築手順
 
--   コンテナを立ち上げるため、以下を実行
+-   コンテナを立ち上げる
 
 ```
 docker compose up -d --build
 ```
 
--   env ファイルの作成をするため、以下を実行
+-   env ファイルの作成をする
 
 ```
 cp src/.env.example src/.env
 ```
 
--   php にコンテナに入るため、以下を実行
+-   php にコンテナに入る
 
 ```
 docker compose exec php bash
 ```
 
--   composer パッケージをインストールするため、以下を実行
+-   composer パッケージをインストールする
 
 ```
 composer install
 ```
 
--   アプリケーションキーを作成するため、以下を実行
+-   アプリケーションキーを作成する
 
 ```
 php artisan key:generate
 ```
 
--   マイグレーションを実行するため、以下を実行
+-   マイグレーションを実行する
 
 ```
 php artisan migrate
 ```
 
-## 環境構築手順が終わった後にやること(この手順はアプリ完成時には README から削除する)
+-   シーディングを実行する
 
--   ブラウザで動作チェック  
-    localhost にアクセスして動作確認  
-    localhost:8080 にアクセスして phpmyadmin が見れるか確認
+```
+php artisan db:seed
+```
 
--   環境構築手順で動くことを確認したら commit/push して環境構築完了  
-    コミットメッセージは"First commit"
+-   ストレージと公開ディレクトリをリンクする
 
-## 開発でやる必要があること(この手順はアプリ完成時には README から削除する)
+```
+php artisan storage:link
+```
 
--   view ファイルの作成・修正・削除
--   controller の作成・修正
--   model の作成・修正
--   css の作成・修正・削除(クラス名も直すこと)
--   migration ファイルの作成・修正
--   seeder の作成
--   README.md(このファイル)の修正
+
+## 使用技術（実行環境）
+-   PHP 8.4.5
+-   Laravel 8.83.29
+-   MySQL 8.0.26
+
+
+## ER図
+![Image](https://github.com/user-attachments/assets/b195e14b-a9be-4302-b91a-708f7ef1995b)
+
+## URL
+
+-   開発環境：http://localhost/
+-   phpMyAdmin：http://localhost:8080/
