@@ -43,9 +43,9 @@
                         <div class="product-name">{{ $purchase->product->name }}</div>
                     </a>
                 </div>
-            <!-- @empty
-                <p class="no-products">購入した商品はありません。</p>
-            @endforelse -->
+            @empty
+                <!-- <p class="no-products">購入した商品はありません。</p> -->
+            @endforelse
         </div>
     @elseif($page == 'sell')
         {{-- 出品した商品一覧 --}}
@@ -62,9 +62,9 @@
                         <span class="sold-badge">Sold</span>
                     @endif
                 </div>
-            <!-- @empty
-                <p class="no-products">出品した商品はありません。</p>
-            @endforelse -->
+            @empty
+                <!-- <p class="no-products">出品した商品はありません。</p> -->
+            @endforelse
         </div>
     @else
         {{-- デフォルト表示（出品した商品） --}}
@@ -81,9 +81,9 @@
                         <span class="sold-badge">Sold</span>
                     @endif
                 </div>
-            <!-- @empty
-                <p class="no-products">出品した商品はありません。</p>
-            @endforelse -->
+            @empty
+                <!-- <p class="no-products">出品した商品はありません。</p> -->
+            @endforelse
         </div>
     @endif
 </div>
